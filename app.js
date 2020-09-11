@@ -1,6 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+// import  expressValidator from 'express-validator';
+// const expressValidator = require('express-validator');
 import { router } from './routes/user';
 
 // app
@@ -16,6 +21,11 @@ mongoose.connect(process.env.DATABASE, {
     console.log('Database connected!');
 });
 
+// middleware
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+// app.use(expressValidator());
 app.use('/api', router);
 
 const port = process.env.PORT || 8000;
