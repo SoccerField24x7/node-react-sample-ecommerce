@@ -5,7 +5,8 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import  expressValidator from 'express-validator';
-import { router } from './routes/auth';
+import { authRoutes } from './routes/auth';
+import { userRoutes } from './routes/user';
 
 // app
 const app = express();
@@ -25,7 +26,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-app.use('/api', router);
+
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 const port = process.env.PORT || 8000;
 
