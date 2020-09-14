@@ -58,11 +58,16 @@ export const signin = (req, res) => {
     });
 };
 
-export const requireSignin = expressJwt({
-    algorithms: ['HS256'],
-    secret: [process.env.JWT_SECRET],
-    userProperty: 'auth' 
-});
+export const requireSignin = (req, res, next) => {
+    const secret = process.env.JWT_SECRET;
+    expressJwt({
+        algorithms: ['HS256'],
+        secret: secret,
+        userProperty: 'auth'
+    });
+
+    next();
+};
 
 export const signout = (req, res) => {
     res.clearCookie('t');
