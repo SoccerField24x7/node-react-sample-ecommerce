@@ -1,9 +1,10 @@
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import { User } from '../models/user';
 import { errorHandler } from '../helpers/dbErrorHandler';
 
-const secret = process.env.JWT_SECRET;
+dotenv.config();
 
 export const signup = (req, res) => {
     console.log('req.body->', req.body);
@@ -58,18 +59,37 @@ export const signin = (req, res) => {
     });
 };
 
-export const requireSignin = (req, res, next) => {
-    const secret = process.env.JWT_SECRET;
-    expressJwt({
-        algorithms: ['HS256'],
-        secret: secret,
-        userProperty: 'auth'
-    });
-
-    next();
-};
+exports.requireSignin = expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"], // added later
+    userProperty: "auth",
+  });
 
 export const signout = (req, res) => {
     res.clearCookie('t');
     res.json({ message: 'Signout sucess' });
+};
+
+export const isAuth = (req, res, next) => {
+    //console.log(req);
+    //console.log(req.profile._id);
+    console.log(req.auth);
+    let user = req.profile && req.auth && req.profile._id == req.auth.id;
+    if (!user) {
+        return res.status(403).json({
+            error: "Access denied."
+        });
+    }
+
+    next();
+};
+
+export const isAdmin = (req, res, next) => {
+    if (req.profile.role === 0) {
+        return res.status(403).json({
+            error: "Admin resource. Access denied."
+        });
+    }
+
+    next();
 };
