@@ -1,11 +1,11 @@
 import express from 'express';
 import { userById } from '../controllers/user';
-import { requireSignin } from '../controllers/auth';
+import { isAuth, isAdmin, requireSignin } from '../controllers/auth';
 
 const router = express.Router();
 
 // routes
-router.get('/secret/:userId', requireSignin, (req, res) => {
+router.get('/secret/:userId', requireSignin, isAuth, isAdmin, (req, res) => {
     res.json({
         user: req.profile
     });
