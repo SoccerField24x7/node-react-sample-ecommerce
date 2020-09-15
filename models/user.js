@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import crypto from 'crypto';
-import uuidv1 from 'uuid/v1';
+import uuidv1 from 'uuidv1';
 
 const userSchema = new mongoose.Schema({
     name: {
