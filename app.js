@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import  expressValidator from 'express-validator';
 import { authRoutes } from './routes/auth';
 import { userRoutes } from './routes/user';
+import { categoryRoutes } from './routes/category';
 
 // app
 const app = express();
@@ -29,6 +30,7 @@ app.use(expressValidator());
 
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
+app.use('/api', categoryRoutes);
 
 const port = process.env.PORT || 8000;
 
