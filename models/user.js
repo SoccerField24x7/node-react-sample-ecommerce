@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true,
-        unique: 32
+        unique: true,
+        maxlength: 32
     },
     hashed_password: {
         type: String,
@@ -64,7 +65,5 @@ userSchema.virtual('password')
     .get(() => {
         return this._password;
     });
-
-//module.exports = mongoose.model('User', userSchema);
 
 export const User = mongoose.model('User', userSchema);
