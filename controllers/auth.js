@@ -40,7 +40,7 @@ export const signin = (req, res) => {
         // is user found make sure email and password match
         if (!user.authenticate(password)) {
             return res.status(401).json({
-                error: 'Email and password don\t match'
+                error: 'Email and password don\'t match'
             });
         }
 
